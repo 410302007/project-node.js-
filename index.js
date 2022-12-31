@@ -13,6 +13,13 @@ app.get('/', (req,res)=>{
   //測試EJS
 });
 
+app.get('/json-sales',(req,res)=>{
+  const data = require(__dirname + '/data/sales.json');
+  //require 可以在程式的任何地方使用
+  res.json(data);  //data(json格式)->沒有要呈現html
+  // res.render('json-sales');
+});
+
 
 
 app.use(express.static('public'));
