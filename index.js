@@ -21,6 +21,12 @@ app.get('/json-sales',(req,res)=>{
   res.render('json-sales',{data});
 });
 
+//取得queryString資料
+//可重複給值 (變成陣列)
+app.get('/try-qs',(req,res)=>{
+  res.json(req.query);  
+});
+
 
 
 app.use(express.static('public'));
