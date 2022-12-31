@@ -10,8 +10,10 @@ app.set('view engine','ejs'); //安裝ejs
 //路由設定，routes
 app.get('/', (req,res)=>{
   res.render('main',{name: '南西'});
-
+  //測試EJS
 });
+
+
 
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
