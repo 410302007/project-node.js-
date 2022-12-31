@@ -4,10 +4,12 @@ const express = require('express');
 
 const app = express();
 
+app.set('view engine','ejs'); //安裝ejs
+
 
 //路由設定，routes
 app.get('/', (req,res)=>{
-  res.send(`<h1>泥好</h1>`);
+  res.render('main',{name: '南西'});
 
 });
 
