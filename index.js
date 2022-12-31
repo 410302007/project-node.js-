@@ -16,8 +16,9 @@ app.get('/', (req,res)=>{
 app.get('/json-sales',(req,res)=>{
   const data = require(__dirname + '/data/sales.json');
   //require 可以在程式的任何地方使用
-  res.json(data);  //data(json格式)->沒有要呈現html
-  // res.render('json-sales');
+  console.log(data); //取得已經是原生類型
+  // res.json(data);  
+  res.render('json-sales',{data});
 });
 
 

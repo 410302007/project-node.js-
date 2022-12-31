@@ -2,7 +2,28 @@
 <%- include('parts/navbar') %>
 
 <div class="container">
-  <h2><%= name %></h2>
+  <div class="row">
+    <div class="col-6">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">員工編號</th>
+            <th scope="col">姓名</th>
+            <th scope="col">年齡</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let s of data){ %>  <!--這邊不輸出，所以不加-或=-->
+          <tr>
+            <td><%=s.id %></td>
+            <td><%=s.name %></td>
+            <td><%=s.age %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table> 
+    </div>
+  </div>
 </div>
 
 <%- include('parts/scripts') %>
