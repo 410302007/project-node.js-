@@ -21,6 +21,32 @@ app.get('/json-sales',(req,res)=>{
   res.render('json-sales',{data});
 });
 
+app.get('/json-sales2',(req,res)=>{
+  const data = require(__dirname + '/data/sales.json');
+
+  const handleObj = {
+    name_asc: {
+      label:'姓名由小到大',
+      sort:(a,b)=>{},
+    },
+    name_desc:{
+      label:'姓名由大到小',
+      sort:(a,b)=>{},
+    },
+    age_asc: {
+      label:'年齡由小到大',
+      sort:(a,b)=>{},
+    },
+    age_desc : {
+      label:'年齡由大到小',
+      sort:(a,b)=>{},
+    },
+
+  };
+
+  res.render('json-sales2',{data, handleObj});
+});
+
 //取得queryString資料
 //可重複給值 (變成陣列)
 app.get('/try-qs',(req,res)=>{
