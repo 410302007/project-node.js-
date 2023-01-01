@@ -21,30 +21,70 @@ app.get('/json-sales',(req,res)=>{
   res.render('json-sales',{data});
 });
 
+// app.get('/json-sales3',(req,res)=>{
+//   const data = require(__dirname + '/data/sales.json');
+
+//   const handleAr = [
+//     {
+//       key: 'name_asc',
+//       label:'姓名由小到大',
+//       sort:(a,b)=>{},
+//     },
+//     {
+//       key: 'name_desc',
+//       label:'姓名由大到小',
+//       sort:(a,b)=>{},
+//     },
+//     { key: 'age_asc',
+//       label:'年齡由小到大',
+//       sort:(a,b)=>{},
+//     },
+//     {
+//       key:'age_desc',
+//       label:'年齡由大到小',
+//       sort:(a,b)=>{},
+//     },
+// ];
+
+//   res.render('json-sales',{data, handleObj});
+// });
+
 app.get('/json-sales2',(req,res)=>{
   const data = require(__dirname + '/data/sales.json');
+  const {orderby} = req.query;
 
   const handleObj = {
     name_asc: {
       label:'姓名由小到大',
-      sort:(a,b)=>{},
+      sort:(a,b)=>{
+      return a.name < b.name? -1: 1;
     },
+  },
     name_desc:{
       label:'姓名由大到小',
-      sort:(a,b)=>{},
+      sort:(a,b)=>{
+      return a.name > b.name? -1: 1;
+      },
     },
     age_asc: {
       label:'年齡由小到大',
-      sort:(a,b)=>{},
+      sort:(a,b)=>(
+        a.age - b.age)
     },
     age_desc : {
       label:'年齡由大到小',
-      sort:(a,b)=>{},
+      sort:(a,b)=>(
+        b.age - a.age
+      ),
     },
 
   };
+  //有對應到key 才做排序
+  if(handleObj[orderby]){
+    data.sort(handleObj[orderby].sort);
+  }
 
-  res.render('json-sales2',{data, handleObj});
+  res.render('json-sales2',{data, handleObj, orderby});
 });
 
 //取得queryString資料
