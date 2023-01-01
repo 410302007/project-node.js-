@@ -100,7 +100,7 @@ app.post(['/try-post','/try-post2'], [urlencodedParser, jsonParser], (req,res)=>
   res.json(req.body);  
 });
 //若沒使用urlencodedParser幫忙處理，req.body為undefined
-
+//根據檔頭來判斷 資料進來時是否要運作
 
 
 app.use(express.static('public'));
