@@ -102,6 +102,14 @@ app.post(['/try-post','/try-post2'], (req,res)=>{
 //若沒使用urlencodedParser幫忙處理，req.body為undefined
 //根據檔頭來判斷 資料進來時是否要運作
 
+app.get('/try-post-form', (req,res)=>{
+  res.render('try-post-form');
+});
+
+app.post('/try-post-form', (req,res)=>{
+  // res.json(req.body);
+  res.render('try-post-form', req.body);
+});
 
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
