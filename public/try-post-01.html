@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form name="form1">
+    <input type="text" name="account" placeholder="帳號"><br>
+    <input type="text" name="password" placeholder="密碼"><br>
+    <input type="submit">
+    <pre id="info"></pre>
+
+  </form>
+  <script>
+    const form1 = document.form1;
+    form1.onsubmit = (event) => {
+      event.preventDefault();
+      
+      const fd = new FormData(form1);
+      //URLSearchParams -> 建立及解析Urlencoded
+      const usp = new URLSearchParams(fd);   
+      fetch('/try-post',{
+        method:'POST',
+        body: usp.toString(),
+        headers:{
+          'Content-Type':'application/x-www-form-urlencoded'
+        }
+      })
+      .then((r)=>r.json())
+      .then(data=>{
+        document.querySelector('#info').innerHTML = JSON.stringify(data, null ,4);
+      });
+
+
+    };
+  </script>
+</body>
+</html>
