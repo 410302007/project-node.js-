@@ -6,7 +6,9 @@ const app = express();
 
 app.set('view engine','ejs'); //安裝ejs
 
-
+//top-level middleware 
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 //路由設定，routes
 app.get('/', (req,res)=>{
@@ -94,9 +96,7 @@ app.get('/try-qs',(req,res)=>{
   res.json(req.query);  
 });
 
-const urlencodedParser = express.urlencoded({extended: false}); //false=> 不要使用qs library
-const jsonParser = express.json();
-app.post(['/try-post','/try-post2'], [urlencodedParser, jsonParser], (req,res)=>{
+app.post(['/try-post','/try-post2'], (req,res)=>{
   res.json(req.body);  
 });
 //若沒使用urlencodedParser幫忙處理，req.body為undefined
