@@ -1,0 +1,20 @@
+
+GET http://localhost:3002/
+
+
+###分隔線
+
+POST http://localhost:3002/try-post
+Content-Type : application/x-www-form-urlencoded
+
+a=12&b=哈囉
+
+###
+
+POST http://localhost:3002/try-post
+Content-Type : application/json
+
+{
+  "a": "14563",
+  "b": "Hello"
+}
