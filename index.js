@@ -7,6 +7,7 @@ const app = express();
 app.set('view engine','ejs'); //安裝ejs
 
 
+
 //路由設定，routes
 app.get('/', (req,res)=>{
   res.render('main',{name: '南西'});
@@ -92,6 +93,13 @@ app.get('/json-sales2',(req,res)=>{
 app.get('/try-qs',(req,res)=>{
   res.json(req.query);  
 });
+
+const urlencodedParser = express.urlencoded({extended: false}); //false=> 不要使用qs library
+const jsonParser = express.json();
+app.post(['/try-post','/try-post2'], [urlencodedParser, jsonParser], (req,res)=>{
+  res.json(req.body);  
+});
+//若沒使用urlencodedParser幫忙處理，req.body為undefined
 
 
 
