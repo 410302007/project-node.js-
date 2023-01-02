@@ -1,5 +1,7 @@
 require('dotenv').config();
-
+const multer = require('multer');
+const upload = multer({dest: 'upload_tmp'});
+ 
 const express = require('express');
 
 const app = express();
@@ -110,6 +112,10 @@ app.post('/try-post-form', (req,res)=>{
   // res.json(req.body);
   res.render('try-post-form', req.body);
 });
+
+app.post('/try-upload', upload.single('avatar'), (req,res)=>{
+  res.json(req.file); //上傳單一檔案
+}); 
 
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
