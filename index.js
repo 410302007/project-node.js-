@@ -121,6 +121,18 @@ app.post('/try-uploads', upload.array('photos'), (req,res)=>{
   res.json(req.files); //上傳多個檔案
 }); 
 
+//寬鬆規則
+app.get('/my-params1/:action?/:id?', (req,res)=>{
+  res.json(req.params); 
+}); 
+
+//嚴謹規則(因放於寬鬆規則後，此路由永遠無法拜訪)
+app.get('/my-params1/abc', (req,res)=>{
+  res.json(req.params); 
+}); 
+//!!越寬鬆規則放越後面，嚴謹放前面
+
+
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
 app.use((req,res)=>{
