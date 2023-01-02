@@ -117,6 +117,10 @@ app.post('/try-upload', upload.single('avatar'), (req,res)=>{
   res.json(req.file); //上傳單一檔案
 }); 
 
+app.post('/try-uploads', upload.array('photos'), (req,res)=>{
+  res.json(req.files); //上傳多個檔案
+}); 
+
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
 app.use((req,res)=>{
