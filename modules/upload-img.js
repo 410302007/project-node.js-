@@ -4,6 +4,7 @@ const {v4 :uuidv4} = require('uuid');
 const extMap = {
   'image/jpeg': '.jpg',
   'image/png': '.png',
+  'image/webp':'.webp'
 };
 //file-> req.file ; cb-> callback function
 const fileFilter = (req, file, cb)=>{
