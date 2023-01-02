@@ -1,6 +1,6 @@
 require('dotenv').config();
 const multer = require('multer');
-const upload = multer({dest: 'upload_tmp'});
+const upload = require('./modules/upload-img');
  
 const express = require('express');
 
