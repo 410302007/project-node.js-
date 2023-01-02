@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <select name="cate1" id="cate1" onchange="generateLevel2()">
+    <!-- <option value=""></option> -->
+  </select>
+  <select name="cate2" id="cate2">
+    
+  </select>
+
+<script>
+  const cate1Val = '2';
+  const cate2Val = '16';
+
+  const cate1 = document.querySelector('#cate1');
+  const cate2 = document.querySelector('#cate2');
+  
+  let data = [
+    {"sid":"1","name":"程式設計","parent_sid":"0"},
+    {"sid":"2","name":"繪圖軟體","parent_sid":"0"},
+    {"sid":"3","name":"網際網路應用","parent_sid":"0"},
+    {"sid":"4","name":"PHP","parent_sid":"1"},
+    {"sid":"5","name":"JavaScript","parent_sid":"1"},
+    {"sid":"7","name":"PS","parent_sid":"2"},
+    {"sid":"8","name":"Chrome","parent_sid":"3"},
+    {"sid":"9","name":"騙錢的","parent_sid":"3"},
+    {"sid":"10","name":"C++","parent_sid":"1"},
+    {"sid":"16","name":"椅拉","parent_sid":"2"}
+    ];
+
+
+    //建立第一層選單 combobox
+    let levelOne = data.filter((el)=>el.parent_sid ==='0');
+    cate1.innerHTML = 
+    levelOne.map((el)=>`<option value="${el.sid}">${el.name}</option>`).join('');
+    //map拿到-> array
+   
+    cate1.value = cate1Val //依據已儲存的資料選擇第一層
+    generateLevel2();  //產生第二層
+    cate2.value = cate2Val;  //設定第二層的值
+
+
+
+    //依據第一層的值去產生第二層
+    function generateLevel2(){
+      const cate1_id = cate1.value;
+
+      let level2 = data.filter((el)=>el.parent_sid === cate1_id);
+      cate2.innerHTML = 
+      level2.map((el)=>`<option value="${el.sid}">${el.name}</option>`).join('');
+    }
+    // 加一個按鈕，可以儲存選擇的狀態存放到LocalStorage
+    
+</script>
+</body>
+</html>
