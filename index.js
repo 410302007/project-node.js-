@@ -126,6 +126,15 @@ app.get('/my-params1/:action?/:id?', (req,res)=>{
   res.json(req.params); 
 }); 
 
+//手機號碼
+app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req,res)=>{
+  let u = req.url.slice(3);  // 從第三個以後開始顯示
+  u = u.split('?')[0];       //丟掉query String
+  u = u.split('-').join(''); //去掉減號
+  res.send(u); 
+}); 
+
+
 //嚴謹規則(因放於寬鬆規則後，此路由永遠無法拜訪)
 app.get('/my-params1/abc', (req,res)=>{
   res.json(req.params); 
