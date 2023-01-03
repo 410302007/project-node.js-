@@ -3,6 +3,7 @@ const multer = require('multer');
 const upload = require('./modules/upload-img');
 const session = require('express-session');  //session 放最前面(注意順序!)
 const moment = require('moment-timezone');
+const db = require('./modules/connect-mysql');
  
 const express = require('express');
 
@@ -188,6 +189,16 @@ app.get('/try-moment', (req, res)=>{
  const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');
  const m2 = moment('2023-01-05');  //new Date()
  res.json({m1a, m1b, d1, m1c, m2});
+});
+
+//查詢資料庫->非同步 -> async await 
+app.get('/try-db', async (req, res)=>{
+//  const [rows, fields] = await db.query("SELECT * FROM categories");
+
+//  res.json({rows, fields});
+const [rows] = await db.query("SELECT * FROM categories");
+
+res.json(rows);
 });
 
 app.use(express.static('public'));
