@@ -141,8 +141,10 @@ app.get('/my-params1/abc', (req,res)=>{
 }); 
 //!!越寬鬆規則放越後面，嚴謹放前面
 
-app.use(require('./routes/admin2'));
-
+//可同時把router掛在不同baseUrl底下
+app.use(require('./routes/admin2')); 
+app.use('/admins', require('./routes/admin2'));
+// app.use('/admins-new', require('./routes/new')); //切換版本(admin3做法)
 
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
