@@ -207,6 +207,8 @@ const [rows] = await db.query("SELECT * FROM categories");
 res.json(rows);
 });
 
+app.use('/address-book', require('./routes/address-book'));
+
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
 app.use((req,res)=>{
