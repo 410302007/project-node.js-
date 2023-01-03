@@ -2,6 +2,7 @@ require('dotenv').config();
 const multer = require('multer');
 const upload = require('./modules/upload-img');
 const session = require('express-session');  //session 放最前面(注意順序!)
+const moment = require('moment-timezone');
  
 const express = require('express');
 
@@ -177,6 +178,16 @@ app.get('/try-sess', (req, res)=>{
     my_var: req.session.my_var, 
     session: req.session          //session不要取名為cookie
   }) 
+});
+
+app.get('/try-moment', (req, res)=>{
+  const d1 = new Date();
+ const m1 = moment();  //new Date()
+ const m1a = m1.format('YYYY/MM/DD'); 
+ const m1b = m1.format('YYYY-MM-DD HH:mm:ss'); 
+ const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');
+ const m2 = moment('2023-01-05');  //new Date()
+ res.json({m1a, m1b, d1, m1c, m2});
 });
 
 app.use(express.static('public'));
