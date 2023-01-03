@@ -56,3 +56,7 @@ app.use()=>
 4.使用map()將原有的陣列，透過函式內所回傳的值組合成另一個陣列(回傳數量等於原始陣列的長度)
 
 5.可使用此方法/app.use('/api1', require('./routes/api1'));/ 掛在不同api下
+
+6.(專題)環境設定-> production.env(npm start)
+
+7.記得將dev.env 放入gitinore(不要放入專題的githun)

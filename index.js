@@ -1,4 +1,10 @@
-require('dotenv').config();
+if(process.argv[2]==='production'){
+  require('dotenv').config({path:__dirname+ '/production.env'});
+}else{
+  require('dotenv').config({path:__dirname+ '/dev.env'});
+};
+
+
 const multer = require('multer');
 const upload = require('./modules/upload-img');
 const session = require('express-session');  //session 放最前面(注意順序!)
@@ -30,7 +36,7 @@ app.use(express.json());
 
 //自訂middleware
 app.use((req, res, next)=>{
-  res.locals.title = '毬';
+  res.locals.title = process.env.SITE_TITLE || "*** 沒有設定 ***";
   //res.locals =>進到template
   //掛在locals底下的屬性會變成template裡的全域變數
   next();   //若要往下傳->必須呼叫next()
