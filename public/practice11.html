@@ -74,7 +74,18 @@
                 </label>
               </div>`;
     }).join('');
-    
+    checkboxG1.innerHTML = `<label class="form-label">請選擇(可多選):</label>` +
+        data1.map(({id, name}, i)=>{
+          return `
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" 
+            name="checkboxGroup" value="${id}" id="checkboxG1_${i}">
+            <label class="form-check-label" for="checkboxG1_${i}">
+              ${name}
+            </label>
+          </div>
+            `;
+        }).join('');
     
 </script>
 </body>
