@@ -16,6 +16,7 @@ thread
 get:
   req.query() //取得query string parameters
   req.params //網址列上的參數
+  req.session //使用express-session時
 
 post:
   req.body   //表單資料 (body-> http的body)

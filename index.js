@@ -1,6 +1,7 @@
 require('dotenv').config();
 const multer = require('multer');
 const upload = require('./modules/upload-img');
+const session = require('express-session');  //session 放最前面(注意順序!)
  
 const express = require('express');
 
@@ -8,11 +9,24 @@ const app = express();
 
 app.set('view engine','ejs'); //安裝ejs
 
+
+
 //top-level middleware 
+
+//解析cookie，拿到sessionId，再把session資料放到req.session
+app.use(session({
+  saveUninitialized: false, //session尚未初始化時 是否存起來(與儲存媒介有關)
+  resave: false,  //沒變更內容是否強制回存
+  secret: 'skdjskdakslkdjlkflqwlkelkdjs', //加密
+  // cookie:{
+  //   maxAge: 1200_000    //存活20分鐘
+  // }   //瀏覽器持續開著，session基本上一直存活
+}));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-//top level middleware
+
+//自訂middleware
 app.use((req, res, next)=>{
   res.locals.title = '毬';
   //res.locals =>進到template
@@ -155,6 +169,15 @@ app.get('/my-params1/abc', (req,res)=>{
 app.use(require('./routes/admin2')); 
 app.use('/admins', require('./routes/admin2'));
 // app.use('/admins-new', require('./routes/new')); //切換版本(admin3做法)
+
+app.get('/try-sess', (req, res)=>{
+  req.session.my_var = req.session.my_var || 0;  //預設為0
+  req.session.my_var ++;        
+  res.json({
+    my_var: req.session.my_var, 
+    session: req.session          //session不要取名為cookie
+  }) 
+});
 
 app.use(express.static('public'));
 //*****所有路由設定都要放在這行之前*****
