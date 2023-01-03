@@ -12,6 +12,14 @@ app.set('view engine','ejs'); //安裝ejs
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
+//top level middleware
+app.use((req, res, next)=>{
+  res.locals.title = '毬';
+  //res.locals =>進到template
+  //掛在locals底下的屬性會變成template裡的全域變數
+  next();   //若要往下傳->必須呼叫next()
+})
+
 //路由設定，routes
 app.get('/', (req,res)=>{
   res.render('main',{name: '南西'});
@@ -55,6 +63,8 @@ app.get('/json-sales',(req,res)=>{
 // });
 
 app.get('/json-sales2',(req,res)=>{
+  res.locals.title = res.locals.title? ('測試-' + res.locals.title):  '測試';
+
   const data = require(__dirname + '/data/sales.json');
   const {orderby} = req.query;
 
