@@ -24,10 +24,10 @@
             <td><%=r.name %></td>
             <td><%=r.email %></td>
             <td><%=r.mobile %></td>
-            <td><%=r.birthday %></td>
+            <td><%= toDateString(r.birthday) %></td>
             <td><%=r.address%></td>
             <td><%=r.member_status %></td>
-            <td><%=r.created_at %></td>
+            <td><%= toDatetimeString(r.created_at) %></td>
           </tr>
           <% } %>
         </tbody>
@@ -38,13 +38,11 @@
     <div class="col">
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link">Previous</a>
-          </li>
+         
           <% for(let i = page-5; i<=page+5; i++)
           if(i>=1 && i<=totalPages){ %>
           %>
-          <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+          <li class="page-item <%= i==page ? 'active': ''%>"></li><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
          <% }%>
           <li class="page-item">
             <a class="page-link" href="#">Next</a>

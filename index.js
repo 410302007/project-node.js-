@@ -39,6 +39,10 @@ app.use((req, res, next)=>{
   res.locals.title = process.env.SITE_TITLE || "*** 沒有設定 ***";
   //res.locals =>進到template
   //掛在locals底下的屬性會變成template裡的全域變數
+
+  //樣板輔助函式 helper function
+  res.locals.toDateString = d=>moment(d).format('YYYY-MM-DD');
+  res.locals.toDatetimeString = d=>moment(d).format('YYYY-MM-DD HH:mm:ss');
   next();   //若要往下傳->必須呼叫next()
 })
 
