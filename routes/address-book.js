@@ -3,13 +3,19 @@ const db = require('../modules/connect-mysql');
 
 const router = express.Router();
 
-router.get('/', async(req, res)=>{
+const getListData = async(req, res)=>{
+  const output ={
+    totalRows:0,
+    totalRows:0,
+    page:1,
+    rows:[],
+  }
   let page = +req.query.page || 1; 
   //用戶想要看第幾頁
   //加號->轉換成數值
 
   if(page<1){
-    return res.redirect(req.baseUrl); //頁面轉向
+    return res.redirect(req.baseUrl+trq.url); //頁面轉向
   }
 
   const perPage = 20;
@@ -27,12 +33,22 @@ router.get('/', async(req, res)=>{
 
     // return res.send(sql); 輸出sql至頁面，除錯用
     [rows] = await db.query(sql);
-    
+
 
   }
 
-  res.render('ab-list', {totalRows, totalPages, page, rows});
+  return  {totalRows, totalPages, page, rows};
 
+};
+
+router.get('/', async(req, res)=>{ 
+  const output = await getListData(req, res); //output
+  res.render('ab-list', output);
 });
-   
+
+router.get('/api', async(req, res)=>{ 
+  const output = await getListData(req, res); //output
+  res.json(output); //拿到路由-> 轉成json
+});
+
 module.exports = router;
