@@ -4,9 +4,10 @@ const db = require('../modules/connect-mysql');
 const router = express.Router();
 
 router.get('/', async(req, res)=>{
-  const [rows] = await db.query("SELECT * FROM products LIMIT 5 ");
+  const t_sql = "SELECT COUNT(1) totalRows FROM member";
+  const [[{totalRows}]] = await db.query(t_sql);  //解構
 
-  res.json(rows);
+  res.json(totalRows);
 });
-
+   
 module.exports = router;
