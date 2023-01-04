@@ -10,7 +10,7 @@ thread
   res.send()
   res.render()
   res.json()
-
+  res.redirect   
 ----------------------
 前端傳入的資料
 get:
@@ -60,3 +60,23 @@ app.use()=>
 6.(專題)環境設定-> production.env(npm start)
 
 7.記得將dev.env 放入gitinore(不要放入專題的githun)
+
+
+
+-----------------------
+基本類型轉換: 
+parseInt(100000000000000000000000)
+=> 1
+100000000000000000000000
+=>1e+23
+parseInt(1e+23)
+=>1
+parseInt('100000000000000000000000')
+=>1e+23
+
+b= 'FF'
+=> 'FF'
+parseInt(b,16) //16進位
+=>255
+(254).toString(16)
+=> 'fe'
