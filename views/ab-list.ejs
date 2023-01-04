@@ -26,7 +26,7 @@
             <td><%=r.mobile %></td>
             <td><%= toDateString(r.birthday) %></td>
             <td><%=r.address%></td>
-            <td><%=r.member_status %></td>
+            <td><%= r.member_status==1 ? '正常' :'停權' %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
           </tr>
           <% } %>
