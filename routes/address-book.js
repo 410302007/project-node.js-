@@ -27,10 +27,11 @@ router.get('/', async(req, res)=>{
 
     // return res.send(sql); 輸出sql至頁面，除錯用
     [rows] = await db.query(sql);
+    
 
   }
 
-  res.json({totalRows, totalPages, page, rows});
+  res.render('ab-list', {totalRows, totalPages, page, rows});
 
 });
    

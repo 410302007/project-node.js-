@@ -1,0 +1,59 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">會員編號</th>
+            <th scope="col">姓名</th>
+            <th scope="col">信箱</th>
+            <th scope="col">手機</th>
+            <th scope="col">生日</th>
+            <th scope="col">地址</th>
+            <th scope="col">會員狀態</th>
+            <th scope="col">創建時間</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let r of rows){ %>
+          <tr>
+            <td><%=r.mid %></td>
+            <td><%=r.name %></td>
+            <td><%=r.email %></td>
+            <td><%=r.mobile %></td>
+            <td><%=r.birthday %></td>
+            <td><%=r.address%></td>
+            <td><%=r.member_status %></td>
+            <td><%=r.created_at %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item">
+            <a class="page-link">Previous</a>
+          </li>
+          <% for(let i = page-5; i<=page+5; i++)
+          if(i>=1 && i<=totalPages){ %>
+          %>
+          <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+         <% }%>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<%- include('parts/scripts') %>
+<%- include('parts/html-foot') %>
