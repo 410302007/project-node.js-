@@ -17,17 +17,8 @@
 
 <div class="container">
   <div class="row">
-    <div class="col">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-         
-          
-          
-          <li class="page-item "></li><a class="page-link" href="?page=1">1</a></li>
-         
-          
-        </ul>
-      </nav>
+    <div class="col paginationContainer">
+      
     </div>
   </div>
   <div class="row">
@@ -41,6 +32,23 @@
 </script>
 <script>
   let myData;
+  
+  const renderPagination = (obj)=>{
+    return `
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          ${Array(11).fill(1).map((v, i)=>{
+            const p = obj.page-5+i;   //前面5頁，後面5頁
+            if(p<1 || p>obj.totalPages) return ''; //頁碼小於1或超過總頁數 -> return空字串(頁碼超出範圍)
+
+            return `<li class="page-item ${p===obj.page ? 'active': ''}">
+              <a class="page-link" href="#">${p}</a>
+            </li> `;
+          }).join('')}
+        </ul>
+      </nav>`
+      ;
+  };
 
 
   //回傳html
@@ -79,13 +87,14 @@
 
 
    
-  fetch('/address-book/api')   //根目錄
+  fetch('/address-book/api?page=11')   //根目錄 
   .then(r=>r.json())
   .then(data=>{
     myData= data;
     console.log(data);
 
     document.querySelector('.tableContainer').innerHTML = renderTable(data.rows);
+    document.querySelector('.paginationContainer').innerHTML = renderPagination(data);
   });
 
 
