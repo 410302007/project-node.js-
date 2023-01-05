@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../modules/connect-mysql');
 
+
 const router = express.Router();
 
 const getListData = async(req, res)=>{
@@ -48,6 +49,10 @@ router.get('/', async(req, res)=>{
 
 router.get('/api', async(req, res)=>{ 
   const output = await getListData(req, res); //output
+  for(let item of output.rows){
+    item.birthday = res.locals.toDateString(item.birthday); //修改birthday格式
+    item.created_at = res.locals.toDatetimeString(item.created_at); //修改created_at格式
+  }
   res.json(output); //拿到路由-> 轉成json
 });
 
