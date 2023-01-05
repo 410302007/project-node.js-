@@ -53,5 +53,41 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
 </script>
+<script>
+  let myData;
+
+  //回傳html
+  const renderTable = ()=>{
+    //myData.rows(->20筆)
+    const ar = myData.rows.map(el=>`   
+    <tr>
+      <td>${el.mid}</td>
+      <td>${el.name}</td>
+      <td>${el.email}</td>
+      <td>${el.mobile}</td>
+      <td>${el.birthday}</td>
+      <td>${el.address}</td>
+      <td>${el.member_status}</td>
+      <td>${el.created_at}</td>
+    </tr>
+    `);
+    //上方字串放進tbody裡
+    document.querySelector('tbody').innerHTML = ar.join('');
+
+  };
+
+
+   
+  fetch('/address-book/api')   //根目錄
+  .then(r=>r.json())
+  .then(data=>{
+    myData= data;
+    console.log(data);
+
+    renderTable();
+  });
+
+
+</script>
 </body>
 </html>
