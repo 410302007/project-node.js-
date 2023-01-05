@@ -4,7 +4,24 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <table class="table table-striped">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+         
+          <% for(let i = page-5; i<=page+5; i++)
+          if(i>=1 && i<=totalPages){ %>
+          %>
+          <li class="page-item <%= i==page ? 'active': ''%>"></li><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+         <% }%>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped table-bordered">
         <thead>
           <tr>
             <th scope="col">會員編號</th>
@@ -32,23 +49,6 @@
           <% } %>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-         
-          <% for(let i = page-5; i<=page+5; i++)
-          if(i>=1 && i<=totalPages){ %>
-          %>
-          <li class="page-item <%= i==page ? 'active': ''%>"></li><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
-         <% }%>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
     </div>
   </div>
 </div>

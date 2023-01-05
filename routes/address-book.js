@@ -53,6 +53,7 @@ router.get('/api', async(req, res)=>{
     item.birthday = res.locals.toDateString(item.birthday); //修改birthday格式
     item.created_at = res.locals.toDatetimeString(item.created_at); //修改created_at格式
   }
+  //TODO: 用output.rows.forEach()再寫一次功能
   res.json(output); //拿到路由-> 轉成json
 });
 
