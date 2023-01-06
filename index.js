@@ -8,8 +8,10 @@ if(process.argv[2]==='production'){
 const multer = require('multer');
 const upload = require('./modules/upload-img');
 const session = require('express-session');  //session 放最前面(注意順序!)
+const MYsqlStore = require('express-mysql-session')(session);
 const moment = require('moment-timezone');
 const db = require('./modules/connect-mysql');
+const sessionStore = new MYsqlStore({}, db);  //{}->放連線的帳號和密碼，因已設定，所以不用放
  
 const express = require('express');
 
@@ -25,6 +27,7 @@ app.use(session({
   saveUninitialized: false, //session尚未初始化時 是否存起來(與儲存媒介有關)
   resave: false,  //沒變更內容是否強制回存
   secret: 'skdjskdakslkdjlkflqwlkelkdjs', //加密
+  store: sessionStore,
   // cookie:{
   //   maxAge: 1200_000    //存活20分鐘
   // }   //瀏覽器持續開著，session基本上一直存活
