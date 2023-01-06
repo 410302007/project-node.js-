@@ -59,7 +59,9 @@ app.use()=>
 
 6.(專題)環境設定-> production.env(npm start)
 
-7.記得將dev.env 放入gitinore(不要放入專題的githun)
+7.記得將dev.env 放入gitinore(不要放入專題的github)
+
+8.只有ab-list05.html可透過liveServer開啟(檔頭: 127.0.0.1:3002/ab-list05.html)-> 使用cors設定
 
 
 

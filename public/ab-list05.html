@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <title>Pet</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+
+<!-- <div class="container">
+  <h2><i class="fa-solid fa-star"></i></h2>
+
+</div> -->
+
+<div class="container">
+  <div class="row">
+    <div class="col paginationContainer">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="col tableContainer">
+      
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+</script>
+<script>
+  let myData;
+  
+  const gotoPage = (p)=>{
+    //先變換網址列參數
+    history.pushState({}, null, `?page=${p}`); //跳頁-> 只需顯示跳頁的頁碼是多少， state的object不使用(給空值)
+    //再讀取queryString 生成畫面
+    getData();  //pushState後拿資料; getData是透過網址列上的參數拿資料
+
+  };
+
+  const renderPagination = (obj)=>{
+    return `
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          ${Array(11).fill(1).map((v, i)=>{
+            const p = obj.page-5+i;   //前面5頁，後面5頁
+            if(p<1 || p>obj.totalPages) return ''; //頁碼小於1或超過總頁數 -> return空字串(頁碼超出範圍)
+
+            return `<li class="page-item ${p===obj.page ? 'active': ''}">
+              <a class="page-link" href="javascript: gotoPage(${p})">${p}</a>
+            </li> `;
+          }).join('')}
+        </ul>
+      </nav>`
+      ;
+  };
+
+
+  //回傳html
+  const renderTable = (ar)=>{
+
+    return `<table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">會員編號</th>
+            <th scope="col">姓名</th>
+            <th scope="col">信箱</th>
+            <th scope="col">手機</th>
+            <th scope="col">生日</th>
+            <th scope="col">地址</th>
+            <th scope="col">會員狀態</th>
+            <th scope="col">創建時間</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${ar.map(({mid, name, email,mobile,birthday, address, member_status, created_at})=>(`   
+          <tr>
+            <td>${mid}</td>
+            <td>${name}</td>
+            <td>${email}</td>
+            <td>${mobile}</td>
+            <td>${birthday}</td>
+            <td>${address}</td>
+            <td>${member_status==1 ? '正常' :'停權'}</td>
+            <td>${created_at}</td>
+          </tr>
+          `)).join('')}
+        </tbody>
+      </table>
+    `;
+  };
+
+  const getData = ()=>{
+    const usp = new URLSearchParams(location.search);
+    let  currentPage = +usp.get('page') || 1;  //當前頁面， 找不到就跳第1頁
+
+   
+    fetch('http://127.0.0.1:3002/address-book/api?page=' + currentPage)   //根目錄(目前頁面)
+    .then(r=>r.json())
+    .then(data=>{
+      myData= data;
+      console.log(data);
+
+      document.querySelector('.tableContainer').innerHTML = renderTable(data.rows);
+      document.querySelector('.paginationContainer').innerHTML = renderPagination(data);
+    });
+  };
+  getData(); //第一次進來呼叫
+ 
+  
+  window.addEventListener('popstate', ()=>{
+    getData();     
+  })
+
+
+</script>
+</body>
+</html>

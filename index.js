@@ -17,10 +17,9 @@ const app = express();
 
 app.set('view engine','ejs'); //安裝ejs
 
-
+app.use(require('cors')());
 
 //top-level middleware 
-
 //解析cookie，拿到sessionId，再把session資料放到req.session
 app.use(session({
   saveUninitialized: false, //session尚未初始化時 是否存起來(與儲存媒介有關)
