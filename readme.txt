@@ -63,6 +63,8 @@ app.use()=>
 
 8.只有ab-list05.html可透過liveServer開啟(檔頭: http://127.0.0.1:5500/public/ab-list05.html)-> 使用cors設定
 
+9.使用檔頭為127.0.0.1:3002/cors-sess.html -> 發送ajax並沒有將cookie發送出去; 送不出去-> 因domain不同
+  使用檔頭為localhost:3002/cors-sess.html -> 發送ajax 將cookie發送出去;
 
 
 -----------------------
