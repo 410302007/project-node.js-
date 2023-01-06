@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button onclick="testPushState()">Test</button>
+
+  <script>
+    //pushState只能用這個網站的路徑或queryString的參數 ; pushState只能改路徑
+    //window 的 pushState 搭配 popstate
+    function testPushState(){
+      history.pushState({name:'Bill'}, null, '/test1/test2');  //後台並無此'/test1/test2路由 
+    }
+
+    window.addEventListener('popstate', event=>{
+      console.log(event);
+    })
+
+  </script>
+
+</body>
+</html>
