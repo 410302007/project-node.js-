@@ -86,10 +86,10 @@
   };
 
   const usp = new URLSearchParams(location.search);
-  let  currentPage = +usp.get('page') || 1;
+  let  currentPage = +usp.get('page') || 1;  //當前頁面， 找不到就跳第1頁
 
    
-  fetch('/address-book/api?page=' + currentPage)   //根目錄 
+  fetch('/address-book/api?page=' + currentPage)   //根目錄(目前頁面)
   .then(r=>r.json())
   .then(data=>{
     myData= data;
