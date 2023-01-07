@@ -41,6 +41,14 @@ const getListData = async(req, res)=>{
   return  {totalRows, totalPages, page, rows};
 
 };
+router.get('/add', async(req, res)=>{ 
+  res.render('ab-add');
+});
+
+router.post('/add', async(req, res)=>{ 
+  
+  // res.render('ab-list', output);
+});
 
 router.get('/', async(req, res)=>{ 
   const output = await getListData(req, res); //output

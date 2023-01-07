@@ -1,0 +1,45 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="card" >
+        <div class="card-body">
+          <h5 class="card-title">新增會員資料</h5>
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">姓名 </label>
+              <input type="text" class="form-control" id="name" name="name">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">信箱 </label>
+              <input type="email" class="form-control" id="email" name="email">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="mobile" class="form-label">手機 </label>
+              <input type="text" class="form-control" id="mobile" name="mobile" pattern="09\d{2}?\d{3}?\d{3}">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="birthday" class="form-label">生日 </label>
+              <input type="date" class="form-control" id="birthday" name="birthday">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">地址 </label>
+              <textarea  class="form-control" id="address" name="address" cols="30" rows="3"></textarea>
+              <div class="form-text"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('parts/scripts') %>
+<%- include('parts/html-foot') %>
