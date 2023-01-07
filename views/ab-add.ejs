@@ -33,6 +33,13 @@
               <textarea  class="form-control" id="address" name="address" cols="30" rows="3"></textarea>
               <div class="form-text"></div>
             </div>
+            <div class="mb-3">
+              <label for="pet_type" class="form-label">寵物種類 </label>
+              <select name="pet_type" id="pet_type" class="form-control">
+                <option value="0" <%= "pet_type" == 0 ? 'selected' : '' %>>狗</option>
+                <option value="1" <%= "pet_type" == 1 ? 'selected' : '' %>>貓</option>
+              </select>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>

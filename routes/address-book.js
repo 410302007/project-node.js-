@@ -53,11 +53,11 @@ router.post('/add', upload.none(), async(req, res)=>{
     errors: {}
   };
 
-  const {name,email,mobile,birthday,address}=req.body; //解構
+  const {name,email,mobile,birthday,address,pet_type}=req.body; //解構
 
   //TODO: 資料檢查
-    const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `created_at`) VALUES(?, ?, ?, ?, ?,NOW())";
-  const [result] = await db.query(sql, [name, email , mobile, birthday, address]);
+    const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `pet_type`,`created_at`)VALUES(?, ?, ?, ?, ?, ?,NOW())";
+  const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type]);
 
   output.result = result;
   res.json(output);                       

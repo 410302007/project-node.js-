@@ -30,6 +30,7 @@
             <th scope="col">手機</th>
             <th scope="col">生日</th>
             <th scope="col">地址</th>
+            <th scope="col">寵物種類</th>
             <th scope="col">會員狀態</th>
             <th scope="col">創建時間</th>
           </tr>
@@ -43,6 +44,7 @@
             <td><%=r.mobile %></td>
             <td><%= toDateString(r.birthday) %></td>
             <td><%=r.address%></td>
+            <td><%= r.pet_type==1 ? '貓' :'狗' %></td>
             <td><%= r.member_status==1 ? '正常' :'停權' %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
           </tr>
