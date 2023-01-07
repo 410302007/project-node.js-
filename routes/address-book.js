@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../modules/connect-mysql');
 const upload = require('../modules/upload-img');
+const moment = require('moment-timezone');
 
 
 const router = express.Router();
@@ -53,7 +54,10 @@ router.post('/add', upload.none(), async(req, res)=>{
     errors: {}
   };
 
-  const {name,email,mobile,birthday,address,pet_type}=req.body; //解構
+  let {name,email,mobile,birthday,address,pet_type}=req.body; //解構
+
+  birthday = moment(birthday);
+  birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD') : null;   //如果格式錯誤，填空值
 
   //TODO: 資料檢查
     const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `pet_type`,`created_at`)VALUES(?, ?, ?, ?, ?, ?,NOW())";
