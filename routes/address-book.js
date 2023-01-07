@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../modules/connect-mysql');
+const upload = require('../modules/upload-img');
 
 
 const router = express.Router();
@@ -45,9 +46,10 @@ router.get('/add', async(req, res)=>{
   res.render('ab-add');
 });
 
-router.post('/add', async(req, res)=>{ 
-  res.send('ok'); 
-  // res.render('ab-list', output);
+router.post('/add', upload.none(), async(req, res)=>{ 
+  //TODO: 資料檢查
+  res.json(req.body);                       
+  //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
 
 router.get('/', async(req, res)=>{ 

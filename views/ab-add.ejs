@@ -46,6 +46,7 @@
   function postForm(event){
     event.preventDefault();
 
+    //TODO: 資料檢查
     const fd = new FormData(document.form1);
     fetch('',{    //('')空字串-> 代表路徑url與原本的路徑url相同
       method:'POST',
