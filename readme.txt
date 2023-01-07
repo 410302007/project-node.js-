@@ -71,14 +71,17 @@ app.use()=>
 
 11.domain一樣 & 通訊協定一樣 ->才吃的到session (port不同->還是可吃的到session)
 
-13.cors.sess/html
+12.cors.sess/html
    (1)(使用liveServer開啟:
       Access-Control-Allow-Credentials: true
       Access-Control-Allow-Origin: http://127.0.0.1:5500);
    (2)(使用http://127.0.0.1:3002/cors-sess.html開啟 -> credentials:true; allow-origin:http://127.0.0.1:3002)  
 
-14.(專題):若要使用session ， 統一使用localhost:3002/ 127.0.0.1:3002 擇一! 
+13.(專題):若要使用session ， 統一使用localhost:3002/ 127.0.0.1:3002 擇一! 
 
+14.使用標籤的class的用意:  1.與css相關    
+                          2.js想透過class拿到element
+   只有form表單欄位，才需要加name; 其他element不須加name
 
 -----------------------
 基本類型轉換: 
