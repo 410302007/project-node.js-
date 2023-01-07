@@ -7,7 +7,7 @@
       <div class="card" >
         <div class="card-body">
           <h5 class="card-title">新增會員資料</h5>
-          <form>
+          <form name="form1" onsubmit="postForm(event)">
             <div class="mb-3">
               <label for="name" class="form-label">姓名 </label>
               <input type="text" class="form-control" id="name" name="name">
@@ -42,4 +42,23 @@
 </div>
 
 <%- include('parts/scripts') %>
+<script>
+  function postForm(event){
+    event.preventDefault();
+
+    const fd = new FormData(document.form1);
+    fetch('',{    //('')空字串-> 代表路徑url與原本的路徑url相同
+      method:'POST',
+      body: fd
+    })
+      .then(r=>r.json())
+      .then(data=>{
+        console.log(data);
+      });
+
+
+  }
+
+
+</script>
 <%- include('parts/html-foot') %>

@@ -46,7 +46,7 @@ router.get('/add', async(req, res)=>{
 });
 
 router.post('/add', async(req, res)=>{ 
-  
+  res.send('ok'); 
   // res.render('ab-list', output);
 });
 

@@ -83,6 +83,8 @@ app.use()=>
                           2.js想透過class拿到element
    只有form表單欄位，才需要加name; 其他element不須加name
 
+15. req.body(表單)-> body-parser只會處理
+    urlencoded & json格式 -> 必須使用upload.none()-> 才能收到資料
 -----------------------
 基本類型轉換: 
 parseInt(100000000000000000000000)
