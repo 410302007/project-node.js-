@@ -47,8 +47,20 @@ router.get('/add', async(req, res)=>{
 });
 
 router.post('/add', upload.none(), async(req, res)=>{ 
+  const output = {
+    success:false,
+    postData: req.body, //除錯用
+    errors: {}
+  };
+
+  const {name,email,mobile,birthday,address}=req.body; //解構
+
   //TODO: 資料檢查
-  res.json(req.body);                       
+    const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `created_at`) VALUES(?, ?, ?, ?, ?,NOW())";
+  const [result] = await db.query(sql, [name, email , mobile, birthday, address]);
+
+  output.result = result;
+  res.json(output);                       
   //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
 
