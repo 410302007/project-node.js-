@@ -19,7 +19,14 @@ const app = express();
 
 app.set('view engine','ejs'); //安裝ejs
 
-app.use(require('cors')());
+const corsOptions = {
+  credentials:true,
+  origin: (origin, callback)=>{
+    console.log({origin});
+    callback(null, true);
+  },
+};
+app.use(require('cors')(corsOptions));
 
 //top-level middleware 
 //解析cookie，拿到sessionId，再把session資料放到req.session

@@ -66,6 +66,19 @@ app.use()=>
 9.使用檔頭為127.0.0.1:3002/cors-sess.html -> 發送ajax並沒有將cookie發送出去; 送不出去-> 因domain不同
   使用檔頭為localhost:3002/cors-sess.html -> 發送ajax 將cookie發送出去;
 
+10. 白名單(WhiteList)-> ex:(let Whitelist = {'http://localhost:8080',undefined, 'http://localhost:3000'};)
+->在陣列裡放主機/ domain/port-> 在陣列裡代表允許
+
+11.domain一樣 & 通訊協定一樣 ->才吃的到session (port不同->還是可吃的到session)
+
+13.cors.sess/html
+   (1)(使用liveServer開啟:
+      Access-Control-Allow-Credentials: true
+      Access-Control-Allow-Origin: http://127.0.0.1:5500);
+   (2)(使用http://127.0.0.1:3002/cors-sess.html開啟 -> credentials:true; allow-origin:http://127.0.0.1:3002)  
+
+14.(專題):若要使用session ， 統一使用localhost:3002/ 127.0.0.1:3002 擇一! 
+
 
 -----------------------
 基本類型轉換: 
