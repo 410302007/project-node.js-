@@ -56,6 +56,11 @@ router.post('/add', upload.none(), async(req, res)=>{
 
   let {name,email,mobile,birthday,address,pet_type}=req.body; //解構
 
+  if(!name || name.length<2 ){
+    output.errors.name='請輸入正確的姓名';
+    return res.json(output);   //輸出，但後面不執行時->加return
+  }
+  
   birthday = moment(birthday);
   birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD') : null;   //如果格式錯誤，填空值
 
@@ -63,8 +68,11 @@ router.post('/add', upload.none(), async(req, res)=>{
     const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `pet_type`,`created_at`)VALUES(?, ?, ?, ?, ?, ?,NOW())";
   const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type]);
 
-  output.result = result;
-  res.json(output);                       
+  output.result = result; 
+  output.susccess = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
+  
+  //affectedRows
+  res.json(output);   //=>結束，所以不須加return                   
   //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
 

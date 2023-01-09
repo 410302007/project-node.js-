@@ -15,7 +15,7 @@
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">信箱 </label>
-              <input type="email" class="form-control" id="email" name="email">
+              <input type="email" class="form-control" id="email" name="email" required>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -62,6 +62,12 @@
       .then(r=>r.json())
       .then(data=>{
         console.log(data);
+        if(data.success){
+          alert('新增成功');
+          location.href = '/address-book';
+        }else{
+          alert('新增失敗');
+        }
       });
 
 
