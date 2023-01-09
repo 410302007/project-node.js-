@@ -33,6 +33,8 @@
             <th scope="col">寵物種類</th>
             <th scope="col">會員狀態</th>
             <th scope="col">創建時間</th>
+            <th scope="col">刪除</th>
+            <th scope="col">修改</th>
           </tr>
         </thead>
         <tbody>
@@ -42,11 +44,21 @@
             <td><%=r.name %></td>
             <td><%=r.email %></td>
             <td><%=r.mobile %></td>
-            <td><%= toDateString(r.birthday) %></td>
+            <td><%= r.birthday && toDateString(r.birthday) %></td>
             <td><%=r.address%></td>
             <td><%= r.pet_type==1 ? '貓' :'狗' %></td>
             <td><%= r.member_status==1 ? '正常' :'停權' %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
+            <td>
+              <a href="/address-book/delete?mid=<%= r.mid%>">
+                <i class="fa-solid fa-trash"></i>
+              </a>
+            </td>
+            <td>
+              <a href="/address-book/edit?mid=<%= r.mid%>">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </td>
           </tr>
           <% } %>
         </tbody>
