@@ -99,11 +99,12 @@ router.get('/edit/:mid', async(req, res)=>{
     return res.redirect(req.baseUrl); //轉向列表頁
   }
   const row = rows[0];  //若有資料就拿第一筆資料
-  res.json(row);
-  // res.render('ab-edit', {row});
+  // res.json(row);
+  res.render('ab-edit', {...row});  //展開->email、name..這些變數 
 });
 //http方法->使用put;  RESTful API 基本規定-> CRUD -> get/ post / 修改:put / delete
 router.put('/edit/:mid', upload.none(), async(req, res)=>{ 
+  return res.json(req.body);
   const output = {
     success:false,
     postData: req.body, //除錯用
