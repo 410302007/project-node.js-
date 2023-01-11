@@ -102,3 +102,12 @@ parseInt(b,16) //16進位
 =>255
 (254).toString(16)
 => 'fe'
+
+
+-----------------------
+puppetteer-demo-get-content:
+  package.json裡=>
+    type:module
+      ->代表此專案裡的js檔都是es module 
+      ->可以使用import / export
+      ->若無此設定,代表載入模組方式:require, 匯出方式: module.exports
