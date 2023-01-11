@@ -16,24 +16,24 @@ router.use((req, res, next)=>{
 });
 
 //呈現新增表單
-const getListData = async(req, res)=>{
-  // const output ={
-  //   totalRows:0,
-  //   totalRows:0,
-  //   page:1,
-  //   rows:[],
-  // }
- 
+const getListData = async(req, res)=>{ 
   let page = +req.query.page || 1;
-  //用戶想要看第幾頁
-  //加號->轉換成數值
+  //用戶想要看第幾頁 //加號->轉換成數值
 
   if(page<1){
     return res.redirect(req.baseUrl+trq.url); //頁面轉向
   }
+  let where  = ' WHERE 1 ';   //1 = 相當於true
+
+  let search = req.query.search || '';
+  if(search){
+    const esc_search = db.escape(`%${search}%`);  // SQL 跳脫單引號, 避免 SQL injection ; 頭尾加%
+    console.log({esc_search});
+    where += ` AND \`name\` LIKE ${esc_search} `;  //頭尾給空格
+  }
 
   const perPage = 20;
-  const t_sql = "SELECT COUNT(1) totalRows FROM member";  //總筆數
+  const t_sql = `SELECT COUNT(1) totalRows FROM member ${where}`;  //總筆數
   const [[{totalRows}]] = await db.query(t_sql);  //解構
   const totalPages = Math.ceil(totalRows/perPage);  //總頁數
 
@@ -43,7 +43,7 @@ const getListData = async(req, res)=>{
       return res.redirect("?page="+ totalPages); //如果超過頁面，轉到最後一頁
     }
 
-    const sql = `SELECT * FROM member ORDER BY mid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
+    const sql = `SELECT * FROM member ${where} ORDER BY mid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
 
     // return res.send(sql); 輸出sql至頁面，除錯用
     [rows] = await db.query(sql);
