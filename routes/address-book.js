@@ -15,7 +15,7 @@ router.use((req, res, next)=>{
   next();
 });
 
-
+//呈現新增表單
 const getListData = async(req, res)=>{
   const output ={
     totalRows:0,
@@ -53,11 +53,57 @@ const getListData = async(req, res)=>{
   return  {totalRows, totalPages, page, rows};
 
 };
+//新增api
 router.get('/add', async(req, res)=>{ 
   res.render('ab-add');
 });
 
 router.post('/add', upload.none(), async(req, res)=>{ 
+  const output = {
+    success:false,
+    postData: req.body, //除錯用
+    errors: {}
+  };
+
+  let {name,email,mobile,birthday,address,pet_type}=req.body; //解構
+
+  if(!name || name.length<2 ){
+    output.errors.name='請輸入正確的姓名';
+    return res.json(output);   //輸出，但後面不執行時->加return
+  }
+  
+  birthday = moment(birthday);
+  birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD') : null;   //如果格式錯誤，填空值
+
+  //TODO: 資料檢查
+    const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `pet_type`,`created_at`)VALUES(?, ?, ?, ?, ?, ?,NOW())";
+  const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type]);
+
+  output.result = result; 
+  output.success = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
+  
+  //affectedRows
+  res.json(output);   //=>結束，所以不須加return                   
+  //upload.none()->不要上傳，但需要middleware幫忙解析資料
+});
+
+router.get('/edit/:mid', async(req, res)=>{ 
+  const mid = +req.params.mid || 0; //轉換成數值
+  if(!mid){
+    output.error='沒有mid'
+    return res.redirect(req.baseUrl); //呈現表單-> 轉向列表頁(不要用json)
+  }
+  const sql = "SELECT * FROM member WHERE mid=?";
+  const [rows] = await db.query(sql,[mid]);
+  if(rows.length<1){
+    return res.redirect(req.baseUrl); //轉向列表頁
+  }
+  const row = rows[0];  //若有資料就拿第一筆資料
+  res.json(row);
+  // res.render('ab-edit', {row});
+});
+//http方法->使用put;  RESTful API 基本規定-> CRUD -> get/ post / 修改:put / delete
+router.put('/edit/:mid', upload.none(), async(req, res)=>{ 
   const output = {
     success:false,
     postData: req.body, //除錯用

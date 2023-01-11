@@ -7,12 +7,13 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item <%= page == 1 ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page - 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a></li>
-          <% for(let i = page-5; i<=page+5; i++)
+          <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
-          %>
-          <li class="page-item <%= i==page ? 'active': ''%>"></li><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
-         <% }%>
-         <li class="page-item <%= page == totalPages ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page + 1 %>"><i class="fa-solid fa-circle-arrow-right"></i></a></li>
+            <li class="page-item <%= i==page ? 'active' : '' %>">
+            <a class="page-link" href="javascript: gotoPage(<%= i %>)"><%= i %></a>
+            </li>
+          <% } %>
+         <li class="page-item <%= page == totalPages ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= totalPages %>"><i class="fa-solid fa-circle-arrow-right"></i></a></li>
         </ul>
       </nav>
     </div>
@@ -53,7 +54,7 @@
               </a>
             </td>
             <td>
-              <a href="<%= baseUrl%>/edit?mid=<%= r.mid%>">
+              <a href="<%= baseUrl%>/edit/<%= r.mid%>">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
             </td>
