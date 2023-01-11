@@ -6,15 +6,13 @@
     <div class="col">
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-         
+          <li class="page-item <%= page == 1 ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page - 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a></li>
           <% for(let i = page-5; i<=page+5; i++)
           if(i>=1 && i<=totalPages){ %>
           %>
           <li class="page-item <%= i==page ? 'active': ''%>"></li><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
          <% }%>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
+         <li class="page-item <%= page == totalPages ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page + 1 %>"><i class="fa-solid fa-circle-arrow-right"></i></a></li>
         </ul>
       </nav>
     </div>
@@ -50,12 +48,12 @@
             <td><%= r.member_status==1 ? '正常' :'停權' %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
             <td>
-              <a href="/address-book/delete?mid=<%= r.mid%>">
+              <a href="javascript:deleteItem(<%= r.mid%>)">
                 <i class="fa-solid fa-trash"></i>
               </a>
             </td>
             <td>
-              <a href="/address-book/edit?mid=<%= r.mid%>">
+              <a href="<%= baseUrl%>/edit?mid=<%= r.mid%>">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
             </td>
@@ -68,4 +66,21 @@
 </div>
 
 <%- include('parts/scripts') %>
+<script>
+  function deleteItem(mid){
+    if(! confirm(`是否要刪除編號為 ${mid} 的資料`)){
+       return;  //回答false->不做->返回 ; true ->往下進行
+    }
+    fetch(`<%= baseUrl %>/${mid}`,{
+      method:'DELETE'
+    })
+    .then(r=>r.json())
+    .then(data=>{
+      console.log(data);
+      if(data.success){
+        location.reload(); //刪除成功->轉向
+      }
+    })
+  }  
+</script>
 <%- include('parts/html-foot') %>
