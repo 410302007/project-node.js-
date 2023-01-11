@@ -220,6 +220,7 @@ const [rows] = await db.query("SELECT * FROM categories");
 res.json(rows);
 });
 
+//baseUrl
 app.use('/address-book', require('./routes/address-book'));
 
 app.use(express.static('public'));
