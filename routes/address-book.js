@@ -62,6 +62,7 @@ router.post('/add', upload.none(), async(req, res)=>{
   const output = {
     success:false,
     postData: req.body, //除錯用
+    code:0,
     errors: {}
   };
 
@@ -104,14 +105,19 @@ router.get('/edit/:mid', async(req, res)=>{
 });
 //http方法->使用put;  RESTful API 基本規定-> CRUD -> get/ post / 修改:put / delete
 router.put('/edit/:mid', upload.none(), async(req, res)=>{ 
-  return res.json(req.body);
-  const output = {
+  const output = {   //定義要輸出資訊的格式
     success:false,
     postData: req.body, //除錯用
+    code:0,
     errors: {}
   };
+  const mid = +req.params.mid || 0; //轉換成數值
+  if(!mid){
+    output.errors.mid='沒有會員資料編號'
+    return res.json(output); //回傳錯誤訊息-> json(API不要用轉向->會將列表頁內容傳給前端)
+  }
 
-  let {name,email,mobile,birthday,address,pet_type}=req.body; //解構
+  let {name,email,mobile,birthday,address,pet_type,member_status}=req.body; //解構
 
   if(!name || name.length<2 ){
     output.errors.name='請輸入正確的姓名';
@@ -122,14 +128,14 @@ router.put('/edit/:mid', upload.none(), async(req, res)=>{
   birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD') : null;   //如果格式錯誤，填空值
 
   //TODO: 資料檢查
-    const sql = "INSERT INTO `member`(`name`, `email`,`mobile`, `birthday`, `address`, `pet_type`,`created_at`)VALUES(?, ?, ?, ?, ?, ?,NOW())";
-  const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type]);
+    const sql = "UPDATE `member` SET `name`=?,`email`=?,`mobile`=?,`birthday`=?,`address`=?,`pet_type`=?,`member_status`=? WHERE `mid`=?";
+  const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type, member_status, mid]);
 
   output.result = result; 
   output.success = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
   
   //affectedRows
-  res.json(output);   //=>結束，所以不須加return                   
+  res.json({result});   //=>結束，所以不須加return                   
   //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
 

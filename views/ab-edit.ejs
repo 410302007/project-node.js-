@@ -41,6 +41,14 @@
                 <%= pet_type%>
               </select>
             </div>
+            <div class="mb-3">
+              <label for="member_status" class="form-label">會員狀態 </label>
+              <select name="member_status" id="member_status" class="form-control">
+                <option value="0" <%= "member_status" == 0 ? 'selected' : '' %>>停權</option>
+                <option value="1" <%= "member_status" == 1 ? 'selected' : '' %>>正常</option>
+                <%= pet_type%>
+              </select>
+            </div>
             <button type="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
