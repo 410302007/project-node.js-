@@ -69,12 +69,14 @@ router.post('/add', upload.none(), async(req, res)=>{
   const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type]);
 
   output.result = result; 
-  output.susccess = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
+  output.success = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
   
   //affectedRows
   res.json(output);   //=>結束，所以不須加return                   
   //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
+
+
 
 router.get('/', async(req, res)=>{ 
   const output = await getListData(req, res); //output
@@ -90,5 +92,23 @@ router.get('/api', async(req, res)=>{
   //TODO: 用output.rows.forEach()再寫一次功能
   res.json(output); //拿到路由-> 轉成json
 });
+
+router.delete('/:mid', async(req, res)=>{ 
+  const output = {
+    success:false,
+    error:''
+  }
+  const mid = +req.params.mid || 0 ;
+  if(!mid){
+    output.error='沒有mid'
+    return res.json(output);
+  }
+  const sql = "DELETE FROM `member` WHERE  mid=?"; 
+
+  const [result] = await db.query(sql,[mid]);
+ 
+  output.success =!! result.affectedRows //boolean值轉換(1->true)
+  res.json(output);
+ });
 
 module.exports = router;
