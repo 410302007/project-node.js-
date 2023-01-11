@@ -17,13 +17,14 @@ router.use((req, res, next)=>{
 
 //呈現新增表單
 const getListData = async(req, res)=>{
-  const output ={
-    totalRows:0,
-    totalRows:0,
-    page:1,
-    rows:[],
-  }
-  let page = +req.query.page || 1; 
+  // const output ={
+  //   totalRows:0,
+  //   totalRows:0,
+  //   page:1,
+  //   rows:[],
+  // }
+ 
+  let page = +req.query.page || 1;
   //用戶想要看第幾頁
   //加號->轉換成數值
 
@@ -32,8 +33,8 @@ const getListData = async(req, res)=>{
   }
 
   const perPage = 20;
-  const t_sql = "SELECT COUNT(1) num FROM member";  //總筆數
-  const [[{num : totalRows}]] = await db.query(t_sql);  //解構
+  const t_sql = "SELECT COUNT(1) totalRows FROM member";  //總筆數
+  const [[{totalRows}]] = await db.query(t_sql);  //解構
   const totalPages = Math.ceil(totalRows/perPage);  //總頁數
 
   let rows = [];
@@ -91,7 +92,6 @@ router.post('/add', upload.none(), async(req, res)=>{
 router.get('/edit/:mid', async(req, res)=>{ 
   const mid = +req.params.mid || 0; //轉換成數值
   if(!mid){
-    output.error='沒有mid'
     return res.redirect(req.baseUrl); //呈現表單-> 轉向列表頁(不要用json)
   }
   const sql = "SELECT * FROM member WHERE mid=?";
@@ -101,7 +101,10 @@ router.get('/edit/:mid', async(req, res)=>{
   }
   const row = rows[0];  //若有資料就拿第一筆資料
   // res.json(row);
-  res.render('ab-edit', {...row});  //展開->email、name..這些變數 
+
+  //從哪邊來
+  const referer = req.get('Referer') || req.baseUrl; //若沒有值->回到baseUrl ->第一頁
+  res.render('ab-edit', {...row, referer});  //展開->email、name..這些變數 
 });
 //http方法->使用put;  RESTful API 基本規定-> CRUD -> get/ post / 修改:put / delete
 router.put('/edit/:mid', upload.none(), async(req, res)=>{ 
@@ -129,13 +132,13 @@ router.put('/edit/:mid', upload.none(), async(req, res)=>{
 
   //TODO: 資料檢查
     const sql = "UPDATE `member` SET `name`=?,`email`=?,`mobile`=?,`birthday`=?,`address`=?,`pet_type`=?,`member_status`=? WHERE `mid`=?";
-  const [result] = await db.query(sql, [name, email , mobile, birthday, address, pet_type, member_status, mid]);
+  const [result] = await db.query(sql, [name, email, mobile, birthday, address, pet_type, member_status, mid]);
 
   output.result = result; 
-  output.success = !!result.affectedRows; //轉成boolean (affectedRows 1 : true ; affectedRows 0 :false )
+  output.success = !!result.changedRows; //轉成boolean (changedRows 1 : true ; changedRows 0 :false )
   
-  //affectedRows
-  res.json({result});   //=>結束，所以不須加return                   
+ 
+  res.json(output);   //=>結束，所以不須加return                   
   //upload.none()->不要上傳，但需要middleware幫忙解析資料
 });
 

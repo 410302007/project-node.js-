@@ -59,6 +59,9 @@
 
 <%- include('parts/scripts') %>
 <script>
+  const referer = <%- JSON.stringify(referer)%> 
+  const locals = <%- JSON.stringify(locals)%> 
+
   function sendForm(event){
     event.preventDefault();
 
@@ -73,7 +76,7 @@
         console.log(data);
         if(data.success){
           alert('修改成功');
-          location.href = '/address-book';
+          location.href = referer;
         }else{
           alert('資料沒有修改');
         }
