@@ -20,7 +20,7 @@
           <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
             <li class="page-item <%= i==page ? 'active' : '' %>">
-            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+            <a class="page-link" href="javascript: gotoPage(<%= i %>)"><%= i %></a>
             </li>
           <% } %>
           <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
@@ -82,6 +82,24 @@
 
 <%- include('parts/scripts') %>
 <script>
+  //前端生關鍵字
+  const usp = new URLSearchParams(location.search);
+  const searchInput = document.querySelector('input[name=search]');
+
+  if(usp.get('search')){
+    //把之前的關鍵字放回輸入欄裡
+    searchInput.value = usp.get('search');
+  }
+
+  const gotoPage = (page)=>{     //page->要到第幾頁
+    usp.set('page', page);        //(key,value)->('page'=參數， page=傳進來的page); 保留原本的參數
+    location.href = '?' + usp.toString(); //從'?'開頭=>頁面與原設定的url相同，只需換掉參數即可
+
+
+  }
+
+
+
   function deleteItem(mid){
     if(! confirm(`是否要刪除編號為 ${mid} 的資料`)){
        return;  //回答false->不做->返回 ; true ->往下進行

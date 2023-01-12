@@ -29,7 +29,7 @@ const getListData = async(req, res)=>{
   if(search){
     const esc_search = db.escape(`%${search}%`);  // SQL 跳脫單引號, 避免 SQL injection ; 頭尾加%
     console.log({esc_search});
-    where += ` AND \`name\` LIKE ${esc_search} `;  //頭尾給空格
+    where += ` AND (\`name\` LIKE ${esc_search} OR \`mobile\` LIKE ${esc_search} OR \`address\` LIKE ${esc_search})`;  //頭尾給空格
   }
 
   const perPage = 20;
