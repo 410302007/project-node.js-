@@ -4,7 +4,15 @@
 <div class="container">
   <div class="row justify-content-end">
     <div class="col-4">
-      <form class="d-flex">
+      <select class="form-select" id="orderby" onchange="changeParams()">
+        <option value="mid_asc">預設(編號升冪)</option>
+        <option value="mid_desc">編號降冪</option>
+        <option value="birthday_asc">生日升冪</option>
+        <option value="birthday_desc">生日降冪</option>
+      </select>
+    </div>
+    <div class="col-4">
+      <form class="d-flex" role="search" onsubmit="changeParams(event)">
         <input class="form-control me-2" type="search" name="search" placeholder="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
@@ -15,7 +23,9 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
-            <a class="page-link" href="?page=<%= page == 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a>
+            <a class="page-link" href="?page=<%= page == 1 %>">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
           </li>
           <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
@@ -23,9 +33,10 @@
             <a class="page-link" href="javascript: gotoPage(<%= i %>)"><%= i %></a>
             </li>
           <% } %>
+
           <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
             <a class="page-link" href="?page=<%= totalPages %>">
-              <i class="fa-solid fa-circle-arrow-right"></i>
+              <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
         </ul>
@@ -68,7 +79,7 @@
               </a>
             </td>
             <td>
-              <a href="<%= baseUrl%>/edit/<%= r.mid%>">
+              <a href="<%= baseUrl %>/edit/<%= r.mid %>">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
             </td>
@@ -85,20 +96,33 @@
   //前端生關鍵字
   const usp = new URLSearchParams(location.search);
   const searchInput = document.querySelector('input[name=search]');
+  const orderbySel = document.querySelector('#orderby');
 
   if(usp.get('search')){
     //把之前的關鍵字放回輸入欄裡
     searchInput.value = usp.get('search');
   }
-
-  const gotoPage = (page)=>{     //page->要到第幾頁
+  if(usp.get('orderby')){
+    //把之前的關鍵字放回輸入欄裡
+    orderbySel.value = usp.get('orderby');
+  }
+  //跳到第幾頁
+  const gotoPage = (page)=>{     //page->跳到第幾頁
     usp.set('page', page);        //(key,value)->('page'=參數， page=傳進來的page); 保留原本的參數
     location.href = '?' + usp.toString(); //從'?'開頭=>頁面與原設定的url相同，只需換掉參數即可
 
 
   }
 
-
+  //設定關鍵字，或變更順序
+  const changeParams = (event=null)=>{
+    
+    if(event) event.preventDefault(); //若有event->就加e.pd; 沒有就不須呼叫
+    usp.set('page', 1);  //變更排序，先將原本的設定刪除，設定回到第一頁
+    usp.set('orderby', orderbySel.value);
+    usp.set('search', searchInput.value);
+    location.href = '?' + usp.toString();
+  }
 
   function deleteItem(mid){
     if(! confirm(`是否要刪除編號為 ${mid} 的資料`)){
