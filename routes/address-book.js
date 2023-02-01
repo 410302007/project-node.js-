@@ -26,10 +26,25 @@ const getListData = async(req, res)=>{
   let where  = ' WHERE 1 ';   //1 = 相當於true
 
   let search = req.query.search || '';
+  let orderby = req.query.orderby || '';
+
   if(search){
     const esc_search = db.escape(`%${search}%`);  // SQL 跳脫單引號, 避免 SQL injection ; 頭尾加%
     console.log({esc_search});
     where += ` AND (\`name\` LIKE ${esc_search} OR \`mobile\` LIKE ${esc_search} OR \`address\` LIKE ${esc_search})`;  //頭尾給空格
+  }
+  let orderbySQL = 'ORDER BY mid ASC'; //預設值(編號升冪)
+  switch(orderby){
+    case 'mid_desc':
+      orderbySQL = 'ORDER BY mid DESC';
+      break;
+    case 'birthday_asc':
+      orderbySQL = 'ORDER BY birthday ASC';
+      break;
+    case 'birthday_desc':
+      orderbySQL = 'ORDER BY birthday DESC';
+      break;
+
   }
 
   const perPage = 20;
@@ -43,7 +58,7 @@ const getListData = async(req, res)=>{
       return res.redirect("?page="+ totalPages); //如果超過頁面，轉到最後一頁
     }
 
-    const sql = `SELECT * FROM member ${where} ORDER BY mid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
+    const sql = `SELECT * FROM member ${where} ${orderbySQL} LIMIT ${(page-1)*perPage}, ${perPage}`;
 
     // return res.send(sql); 輸出sql至頁面，除錯用
     [rows] = await db.query(sql);
