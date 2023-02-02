@@ -4,7 +4,7 @@ if(process.argv[2]==='production'){
   require('dotenv').config({path:__dirname+ '/dev.env'});
 };
 
-
+const bcrypt = require('bcryptjs')
 const multer = require('multer');
 const upload = require('./modules/upload-img');
 const session = require('express-session');  //session 放最前面(注意順序!)
@@ -219,6 +219,14 @@ const [rows] = await db.query("SELECT * FROM categories");
 
 res.json(rows);
 });
+
+app.get('/add-member', async (req, res)=>{
+  const sql = "INSERT INTO `member`(`name`, `email`, `password`, `hash`, `created_at`) VALUES ('王小美', ?, ?, '', Now())";
+  const password = await bcrypt.hash('123456',10);
+  const [result] = await db.query(sql,['shin@test.com', password]);
+  
+  res.json(result);
+  });
 
 //baseUrl
 app.use('/address-book', require('./routes/address-book'));
