@@ -25,6 +25,7 @@ const getListData = async(req, res)=>{
   }
   let where  = ' WHERE 1 ';   //1 = 相當於true
 
+  //搜尋功能
   let search = req.query.search || '';
   let orderby = req.query.orderby || '';
 
