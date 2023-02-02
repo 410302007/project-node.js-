@@ -52,6 +52,8 @@ app.use((req, res, next)=>{
   //樣板輔助函式 helper function
   res.locals.toDateString = d=>moment(d).format('YYYY-MM-DD');
   res.locals.toDatetimeString = d=>moment(d).format('YYYY-MM-DD HH:mm:ss');
+  //直接將session 資料放到locals(res.locals.sessiond)，讓template可以吃到session
+  res.locals.session = req.session;
   next();   //若要往下傳->必須呼叫next()
 })
 
@@ -220,13 +222,29 @@ const [rows] = await db.query("SELECT * FROM categories");
 res.json(rows);
 });
 
+//新增會員資料
 app.get('/add-member', async (req, res)=>{
+  return res.json({}); //已新增就不要再新增了
   const sql = "INSERT INTO `member`(`name`, `email`, `password`, `hash`, `created_at`) VALUES ('王小美', ?, ?, '', Now())";
   const password = await bcrypt.hash('123456',10);
   const [result] = await db.query(sql,['shin@test.com', password]);
   
   res.json(result);
   });
+//登入
+app.get('/login', async (req, res)=>{
+  return res.render('login');   
+});
+app.post('/login', async (req, res)=>{
+  return res.json({});   
+});
+
+//登出
+app.get('/logout', async (req, res)=>{
+   delete req.session.user; //刪掉session
+   return res.redirect('/');  //轉向首頁
+});
+  
 
 //baseUrl
 app.use('/address-book', require('./routes/address-book'));

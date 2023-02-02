@@ -36,8 +36,27 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/address-book/add">新增會員資料</a>
-          </li>
+          </li> 
+        </ul>
+
+        <ul class="navbar-nav mb-2 mb-lg-0">
+            <% if(locals.session && session.user){ %>
+            <li class="nav-item">
+              <a class="nav-link">登入的會員</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">登出</a>
+            </li>
+           
+            <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">登入</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">註冊</a>
+            </li>
           
+           <% } %>
         </ul>
         <!-- <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
