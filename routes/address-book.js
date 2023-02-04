@@ -12,6 +12,11 @@ router.use((req, res, next)=>{
   const{url, baseUrl, originalUrl} = req;
   res.locals={...res.locals,url, baseUrl, originalUrl};
   //不能使用-> res.locals.url = url (會將先前在index設定的middleware排除)
+  //都要先經過登入才可以看=>擋住所有路由
+  if(!req.session.user){
+    req.session.lastPage = res.originalUrl;
+    return res.redirect('/login');
+  }
   next();
 });
 
@@ -72,6 +77,11 @@ const getListData = async(req, res)=>{
 };
 //新增api
 router.get('/add', async(req, res)=>{ 
+  //如果沒有登入會員，就看不到新增會員資料的表單
+  if(!req.session.user){
+    req.session.lastPage = res.originalUrl;
+    return res.redirect('/login');
+  }
   res.render('ab-add');
 });
 
