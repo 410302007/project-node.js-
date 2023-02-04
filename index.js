@@ -232,9 +232,11 @@ app.get('/add-member', async (req, res)=>{
   res.json(result);
   });
 //登入
+//呈現登入表單
 app.get('/login', async (req, res)=>{
   return res.render('login');   
 });
+//處理登入後，有無email、password這兩值
 app.post('/login', upload.none(), async (req, res)=>{
   const output ={
     success:false,
@@ -262,6 +264,7 @@ app.post('/login', upload.none(), async (req, res)=>{
     output.success = true;
     //成功登入->設定session
     req.session.user={
+      id:row.id,
       email,  //=>[email]
       name : row.name
     };
@@ -278,7 +281,17 @@ app.get('/logout', async (req, res)=>{
    delete req.session.user; //刪掉session
    return res.redirect('/');  //轉向首頁
 });
-  
+
+//不透過表單登入流程(不使用帳密)
+//快速登入
+app.get('/fake1', async (req, res)=>{
+  req.session.user={
+    id:578,
+    email:'moeny2@test.com',
+    name : '王大強'
+  };
+  return res.redirect('/');  //轉向首頁
+});
 
 //baseUrl
 app.use('/address-book', require('./routes/address-book'));
