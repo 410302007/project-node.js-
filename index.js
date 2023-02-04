@@ -225,9 +225,9 @@ res.json(rows);
 //新增會員資料
 app.get('/add-member', async (req, res)=>{
   return res.json({}); //已新增就不要再新增了
-  const sql = "INSERT INTO `member`(`name`, `email`, `password`, `hash`, `created_at`) VALUES ('王小美', ?, ?, '', Now())";
-  const password = await bcrypt.hash('123456',10);
-  const [result] = await db.query(sql,['shin@test.com', password]);
+  const sql = "INSERT INTO `member`(`name`, `email`, `password`, `hash`, `created_at`) VALUES ('王大副', ?, ?, '', Now())";
+  const password = await bcrypt.hash('24680',10);
+  const [result] = await db.query(sql,['money@test.com', password]);
   
   res.json(result);
   });
@@ -235,8 +235,42 @@ app.get('/add-member', async (req, res)=>{
 app.get('/login', async (req, res)=>{
   return res.render('login');   
 });
-app.post('/login', async (req, res)=>{
-  return res.json({});   
+app.post('/login', upload.none(), async (req, res)=>{
+  const output ={
+    success:false,
+    code:0,
+    error:'',
+  };
+  const {email, password} = req.body;
+  if(!email | !password){  //若email或密碼 其中一個沒有
+    output.error = '欄位資料不足'
+    output.code = 400;
+    return res.json(output);
+  }
+  const sql = "SELECT * FROM  member WHERE email =?";
+  const [rows] = await db.query(sql,[email]); //上方的? => [email]
+  if(rows.length < 1){
+    output.error = '信箱錯誤'
+    output.code = 410;
+    return res.json(output);
+  }
+   const row = rows[0];
+   
+   //密碼比對
+   const result = await bcrypt.compare(password,row.password);
+   if(result){
+    output.success = true;
+    //成功登入->設定session
+    req.session.user={
+      email,  //=>[email]
+      name : row.name
+    };
+   }else{
+    output.error = "密碼錯誤";
+    output.code = 420;
+   }
+
+  return res.json(output);   
 });
 
 //登出
