@@ -5,8 +5,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-  <title>商品列表</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <title>商品列表</title>
+  <style>
+    .red{
+      color:red;
+    }
+    .gray{
+      color:gray;
+    }
+    .my-like>.fa-solid{
+      display:none;
+    }
+    .my-like>.fa-regular{
+      display:inline-block;
+    }
+    .my-like.yes>.fa-solid{
+      display:inline-block;
+    }
+    .my-like.yes>.fa-regular{
+      display:none;
+    }
+  </style>
 </head>
 <body>
 
@@ -26,6 +46,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 <script>
   let myData;
   
@@ -38,6 +59,7 @@
     return `<table class="table table-striped table-bordered">
         <thead>
           <tr>
+            <th scope="col">最愛</th>
             <th scope="col">產品編號</th>
             <th scope="col">品名</th>
             <th scope="col">種類</th>
@@ -49,6 +71,12 @@
         <tbody>
           ${ar.map(({products_id, products_name, type_id, products_description, products_price, products_unit})=>(`   
           <tr>
+            <td>
+              <div class="my-like" onClick="toggleLike(event)">
+              <i class="fa-solid fa-heart red"></i>
+              <i class="fa-regular fa-heart gray"></i>
+              </div>
+            </td>
             <td>${products_id}</td>
             <td>${products_name}</td>
             <td>${type_id}</td>
@@ -80,7 +108,11 @@
   window.addEventListener('popstate', ()=>{
     getData();     
   })
-
+  //如果有愛心 -> 就拿掉愛心 ; 如果沒有愛心-> 就加愛心
+  const toggleLike = (event)=>{
+    const t = event.currentTarget //currentTarget -> my-like 
+    t.classList.toggle("yes");
+  };
 
 </script>
 </body>
