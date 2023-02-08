@@ -85,6 +85,12 @@ app.use()=>
 
 15. req.body(表單)-> body-parser只會處理
     urlencoded & json格式 -> 必須使用upload.none()-> 才能收到資料
+    upload.none()-> 解析req.body( body-parser ) 
+
+16. mysql語法: 
+    JOIN 兩張資料表時，順序不重要!
+    ex: 
+    SELECT * FROM products JOIN products_type ON products.type_id = products_type.type_id;
 -----------------------
 基本類型轉換: 
 parseInt(100000000000000000000000)
