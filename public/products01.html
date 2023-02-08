@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+  <title>商品列表</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+
+<!-- <div class="container">
+  <h2><i class="fa-solid fa-star"></i></h2>
+
+</div> -->
+
+<div class="container">
+  
+  <div class="row">
+    <div class="col tableContainer">
+      
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
+</script>
+<script>
+  let myData;
+  
+ 
+
+
+  //回傳html
+  const renderTable = (ar)=>{
+
+    return `<table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">產品編號</th>
+            <th scope="col">品名</th>
+            <th scope="col">種類</th>
+            <th scope="col">描述</th>
+            <th scope="col">價格</th>
+            <th scope="col">規格</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${ar.map(({products_id, products_name, type_id, products_description, products_price, products_unit})=>(`   
+          <tr>
+            <td>${products_id}</td>
+            <td>${products_name}</td>
+            <td>${type_id}</td>
+            <td>${products_description}</td>
+            <td>${products_price}</td>
+            <td>${products_unit}</td>
+          </tr>
+          `)).join('')}
+        </tbody>
+      </table>
+    `;
+  };
+
+  const getData = ()=>{
+  
+   
+    fetch('/products')  
+    .then(r=>r.json())
+    .then(data=>{
+      myData= data; //本身拿到的就是array
+      console.log(data);
+
+      document.querySelector('.tableContainer').innerHTML = renderTable(data); //從product.js拿到就是array-> 不需加rows
+    });
+  };
+  getData(); //第一次進來呼叫
+ 
+  
+  window.addEventListener('popstate', ()=>{
+    getData();     
+  })
+
+
+</script>
+</body>
+</html>
